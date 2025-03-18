@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>HTML-first tests • hTest</title>
+	<link rel="icon" href="https://htest.dev/assets/images/logo.svg" />
+	<link rel="stylesheet" href="https://htest.dev/assets/prism.css" />
+	<link rel="stylesheet" href="https://htest.dev/assets/style.css" />
+	<link rel="stylesheet" href="{{ page | relative }}/assets/style.css" />
+	<script src="https://htest.dev/assets/prism.js"></script>
+</head>
+<body class="language-html">
+
+<header class="wa-split">
+
+<div>
+<h1>
+	<a href="https://htest.dev/"><img src="https://htest.dev/assets/images/logo.svg" alt="Logo showing a white checkmark on a greenish background" /> <strong>h</strong>Test</a>
+</h1>
+
+<p>Declarative unit testing,<br /> for everyone</p>
+</div>
+
+<nav>
+	<a href="{{ page | relative }}/api/">API</a>
+	<a href="https://github.com/htest-dev/htest-html/" target="_blank">
+		<i class="fab fa-github"></i>
+	</a>
+</nav>
+
+</header>
+
+<div class="page">
+
+{{- content | safe -}}
+
+</div>
+
+<footer>
+	<p>By <a href="https://lea.verou.me">Lea Verou</a> & <a href="https://github.com/htest-dev/htest-html/graphs/contributors">contributors</a>
+	• Proudly hosted by <a href="https://netlify.com">Netlify</a>
+	</p>
+</footer>
+
+</body>
+</html>

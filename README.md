@@ -1,3 +1,29 @@
+<header class="readme-only">
+
+# <img src="https://htest.dev/assets/images/logo.svg" class="logo" width="22"> **h**Test
+
+Declarative, boilerplate-free unit testing, for everyone.
+
+https://html.htest.dev
+<hr class="readme-only" />
+</header>
+
+<nav class="sidebar toc" id="main-contents">
+
+- [Installation](#installation)
+- [Defining tests](#defining-tests)
+	- [`data-test` attribute](#data-test-attribute)
+	- [`data-columns` attribute](#data-columns-attribute)
+	- [`data-click` attribute](#data-click-attribute)
+	- [`data-error` attribute](#data-error-attribute)
+	- [`$out()` and `$outln()` functions](#out-and-outln-functions)
+- [Running tests](#running-tests)
+- [Isolating tests](#isolating-tests)
+
+</nav>
+
+<main>
+
 # HTML-first tests
 
 While you can run any hTests in the browser,
@@ -11,14 +37,14 @@ Last, they also support mocking basic interactions like click or focus, via HTML
 
 ## Installation
 
-Just include hTest on HTML pages with the appropriate format (see below).
+Just include hTest on the HTML page:
 
 ```html
 <link rel="stylesheet" href="https://htest.dev/htest.css" crossorigin />
 <script src="https://htest.dev/htest.js" crossorigin></script>
 ```
 
-## Creating new tests
+## Defining tests
 
 The primary test format is reftests, i.e. automatic comparison of two things, typically app output with expected (reference) output. When the two match, the test passes (green), otherwise it fails (red).
 
@@ -36,7 +62,7 @@ Typically these tables are inside sections with HTML like the following:
 ```
 
 This structure is not necessary for the reftests to work, but it allows you to isolate specific sections, which is often convenient when debugging.
-You can also isolate an individual row by Alt + double clicking.
+You can also isolate an individual row by <kbd>Alt</kbd>/<kbd>Option</kbd> + double clicking.
 
 Below is a short description of the syntax we support.
 
@@ -49,8 +75,8 @@ Other useful values are:
 
 - `"selector"` which treats the reference cell as a selector (or list of a selectors, if using a `<ul>`) that the output HTML must match. You can reverse the matching with `class="not"`.
 - `"numbers"` which only compares the numbers returned, ignoring all other output. You can specify an epsilon value by using a `data-epsilon` attribute, either on the row or an ancestor.
-- `"dom"` which compares both contents and attributes
-- `"attribute"` ???
+- `"dom"` which compares both contents and attributes.
+{# - `"attribute"` ??? #}
 
 Besides the built-in comparison functions, you can provide your own, by defining a JavaScript function, either as the content of the `data-test` attribute, or by defining a global function.
 It accepts the 2-3 cells of your test as arguments and should return a truthy value for pass and a falsy value for fail.
@@ -72,10 +98,10 @@ The parameters can be specified in any order.
 
 Examples:
 
-- `data-click=""`: Clicks the element it's specified on immediately on DOMContentLoaded
-- `data-click=".foo"`: Clicks `.foo` elements immediately on DOMContentLoaded
-- `data-click=".foo .bar wait 5s after mv-load"`: Clicks `.foo .bar` elements 5 seconds after the `mv-load` event fires
-- `data-click=".foo 3 times after hashchange"`: Clicks `.foo` elements 3 times after the `hashchange` event
+- `data-click=""`: Clicks the element it's specified on immediately on `DOMContentLoaded`.
+- `data-click=".foo"`: Clicks `.foo` elements immediately on `DOMContentLoaded`.
+- `data-click=".foo .bar wait 5s after mv-load"`: Clicks `.foo .bar` elements 5 seconds after the `mv-load` event fires.
+- `data-click=".foo 3 times after hashchange"`: Clicks `.foo` elements 3 times after the `hashchange` event.
 - `data-click="wait 1s after load"`: Clicks the element it's specified on 1 second after the `load` event fires.
 - `data-click="wait 1s after load 2 times"`: Same as above, but clicks twice.
 
@@ -85,13 +111,23 @@ Use on tests that *should* produce an error to pass.
 Use the `data-error` attribute **on the `<tr>`, not the table cell**.
 Put the expected error type in the "expected" table cell.
 
-### `$out()` and `$outln()` functions
+### `$out()` and `$outln()` functions { #out-and-outln-functions }
 
 Sometimes what is tested is pure JS output with no UI.
-While the JS-first mode is typically better for those use cases, it is possible to use HTML-first mode as well.
+While the [JS-first mode](https://htest.dev/docs/define/) is typically better for those use cases, it is possible to use HTML-first mode as well.
 In that case, use `<script>` tags and the `$out()` or `$outln()` functions.
 Their only difference is that `$outln()` also prints a line break.
 
 ## Running tests
 
-HTML-first tests can currently only [run in the browser](../../run/html), by opening the HTML file.
+HTML-first tests can currently only run in the browser, by opening the HTML file.
+
+## Isolating tests
+
+It is often useful to isolate a single group of tests, or even a single test so you can debug a particular failure.
+
+To isolate a group of tests (`<section>`), simply click the link of the section heading.
+
+To isolate a specific test (`<tr>`), hold down the <kbd>Alt</kbd>/<kbd>Option</kbd> key and double click on the table row.
+
+</main>

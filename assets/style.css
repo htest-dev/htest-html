@@ -1,0 +1,10 @@
+#main-contents {
+	ul ul {
+		padding-inline-start: var(--wa-space-s);
+
+		> li {
+			color: var(--color-neutral-50);
+			font-weight: var(--wa-font-weight-normal);
+		}
+	}
+}
