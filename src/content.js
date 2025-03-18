@@ -36,8 +36,7 @@ export function domContent ({
 
 			let formRule = smartForms
 				? Object.entries(formContent)
-						.find(([selector, rule]) => node.closest(selector))
-						?.map(([selector, rule]) => rule)
+						.find(([selector, rule]) => node.closest(selector))?.rule
 				: null;
 
 			if (formRule) {
