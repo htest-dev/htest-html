@@ -32,8 +32,10 @@
 	"scripts": {
 		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js",
 		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
-		"build": "npm run build:html",
-		"watch": "npm run watch:html",
+		"build:apidocs": "npx typedoc",
+		"watch:apidocs": "npx typedoc --watch --preserveWatchOutput",
+		"build": "npm run build:html & npm run build:apidocs",
+		"watch": "npm run watch:html & npm run watch:apidocs",
 		"release": "release-it"
 	},
 	"devDependencies": {
@@ -44,6 +46,7 @@
 		"prettier-plugin-brace-style": "^0.7.2",
 		"prettier-plugin-merge": "^0.7.2",
 		"prettier-plugin-space-before-function-paren": "^0.0.6",
-		"release-it": "^18.1.2"
+		"release-it": "^18.1.2",
+		"typedoc": "^0.28.0"
 	}
 }
