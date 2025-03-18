@@ -1,12 +1,12 @@
-export { equals } from "../check.js";
+export { equals } from "https://htest.dev/src/check.js";
 
 /**
  * Utilities that are useful for tests
  */
-const DEFAULT_CONTENT_IGNORE = [".mv-ui", "script", ".test-content-ignore"];
+const DEFAULT_CONTENT_IGNORE = ["script", ".test-content-ignore"];
 const formContent = {
 	"input, textarea": e => e.value,
-	"select": e => {
+	select: e => {
 		return [...e.selectedOptions].map(o => o.textContent).join(",\n");
 	},
 };
@@ -34,7 +34,11 @@ export function domContent ({
 				return "";
 			}
 
-			let formRule = smartForms ? Object.entries(formContent).find(([selector, rule]) => node.closest(selector))?.map(([selector, rule]) => rule) : null;
+			let formRule = smartForms
+				? Object.entries(formContent)
+						.find(([selector, rule]) => node.closest(selector))
+						?.map(([selector, rule]) => rule)
+				: null;
 
 			if (formRule) {
 				ret += formRule(node);
@@ -46,7 +50,6 @@ export function domContent ({
 			if (pseudos) {
 				ret += pseudo(node, "after");
 			}
-
 		}
 		else if (node.nodeType == 3) {
 			ret += node.textContent;

@@ -15,6 +15,18 @@
 		"url": "https://github.com/htest-dev/htest-html/issues"
 	},
 	"type": "module",
+	"main": "src/index.js",
+	"exports": {
+		".": {
+			"import": "./src/index.js"
+		},
+		"./compare": {
+			"import": "./src/compare.js"
+		},
+		"./content": {
+			"import": "./src/content.js"
+		}
+	},
 	"author": "Lea Verou",
 	"license": "MIT",
 	"scripts": {

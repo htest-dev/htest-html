@@ -4,8 +4,8 @@
 
 import { $$ } from "./util.js";
 import { content } from "./content.js";
-import * as check from "../check.js";
-import * as map from "../map.js";
+import * as check from "https://htest.dev/src/check.js";
+import * as map from "https://htest.dev/src/map.js";
 
 function compare (cells, map, comparator = (a, b) => a == b) {
 	let [test, ref] = cells.slice(-2).map(map);
@@ -21,16 +21,17 @@ export function contents (...cells) {
  */
 export function numbers (...cells) {
 	let tr = cells[0].parentNode;
-	let ε = +(tr.closest("[data-epsilon]")?.dataset.epsilon) || 0;
+	let ε = +tr.closest("[data-epsilon]")?.dataset.epsilon || 0;
 
-	return compare(cells, td => map.extractNumbers(content(td)), check.deep(check.proximity({epsilon: ε})));
+	return compare(
+		cells,
+		td => map.extractNumbers(content(td)),
+		check.deep(check.proximity({ epsilon: ε })),
+	);
 }
 
 export function attribute (attribute, td, ref) {
-	return compare([td, ref],
-		td => $$("*", td).map(el => el[attribute]),
-		check.equals,
-	);
+	return compare([td, ref], td => $$("*", td).map(el => el[attribute]), check.equals);
 }
 
 /**
@@ -61,8 +62,12 @@ export function dom (td, ref) {
 	return $$("*", ref).every((refElement, i) => {
 		let element = elements[i];
 
-		return element.nodeName == refElement.nodeName
-				&& $$(refElement.attributes).every(attr => element.getAttribute(attr.name) === attr.value)
-				&& content(element).trim() == content(refElement).trim();
+		return (
+			element.nodeName == refElement.nodeName &&
+			$$(refElement.attributes).every(
+				attr => element.getAttribute(attr.name) === attr.value,
+			) &&
+			content(element).trim() == content(refElement).trim()
+		);
 	});
 }

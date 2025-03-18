@@ -1,17 +1,19 @@
-import { delay, getType, stringify } from "../util.js";
-export {default as create} from "https://v2.blissfuljs.com/src/dom/create.js";
-export {default as bind} from "https://v2.blissfuljs.com/src/events/bind.js";
-export {default as include} from "https://v2.blissfuljs.com/src/async/include.js";
+import { delay, getType, stringify } from "https://htest.dev/src/util.js";
+export { default as create } from "https://v2.blissfuljs.com/src/dom/create.js";
+export { default as bind } from "https://v2.blissfuljs.com/src/events/bind.js";
+export { default as include } from "https://v2.blissfuljs.com/src/async/include.js";
 
 /**
- * Parse data-click text into a meaningful structure
- * Examples:
-   .mv-bar .mv-save wait 5s after load"
-   .mv-bar .mv-save wait 3s" (no event, DOMContentLoaded assumed)
-   wait 1s after load" (no selector, element assumed)
-*/
+ * Parse data-click text into a meaningful structure.
+ * @example
+ * .foo .bar wait 5s after load
+ * @example
+ * .foo .bar wait 3s (no event, DOMContentLoaded assumed)
+ * @example
+ * wait 1s after load (no selector, element assumed)
+ */
 export function parseClick (click) {
-	var ret = {times: 1};
+	var ret = { times: 1 };
 
 	click = click.replace(/wait ([\d.]+)s/i, ($0, $1) => {
 		ret.delay = $1 * 1000;
@@ -37,7 +39,7 @@ export async function doClick (click) {
 	click = parseClick(click);
 
 	if (click.event) {
-		await new Promise(resolve => target.addEventListener(click.event, resolve, {once: true}));
+		await new Promise(resolve => target.addEventListener(click.event, resolve, { once: true }));
 	}
 
 	if (click.delay) {
@@ -46,13 +48,14 @@ export async function doClick (click) {
 
 	let targets = click.selector ? $$(click.selector, target) : [target];
 
-	for (target of targets) {
+	for (let target of targets) {
 		for (let i = 0; i < click.times; i++) {
 			target.click();
 		}
 	}
 }
 
+// prettier-ignore
 export function $$ (selector, context = document) {
 	return [...context.querySelectorAll(selector)];
 }
@@ -63,14 +66,14 @@ export function ready (doc = document) {
 			resolve();
 		}
 		else {
-			doc.addEventListener("DOMContentLoaded", resolve, {once: true});
+			doc.addEventListener("DOMContentLoaded", resolve, { once: true });
 		}
 	});
 }
 
 export function output (obj) {
 	return stringify(obj, {
-		custom: (obj) => {
+		custom: obj => {
 			if (Array.isArray(obj)) {
 				return obj.map(output).join(", ");
 			}
@@ -81,9 +84,7 @@ export function output (obj) {
 
 			// Handle nested objects
 			if (obj && typeof obj === "object") {
-				let entries = Object.entries(obj).map(([key, value]) =>
-					`${ key }: ${ output(value) }`,
-				);
+				let entries = Object.entries(obj).map(([key, value]) => `${key}: ${output(value)}`);
 				return "{ " + entries.join(", ") + " }";
 			}
 		},

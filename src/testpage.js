@@ -1,6 +1,6 @@
-import { idify } from "../util.js";
+import { idify } from "https://htest.dev/src/util.js";
 import { create, include, $$, bind, ready } from "./util.js";
-import RefTest from "./reftest.js";
+import RefTest from "./classes/RefTest.js";
 import * as Test from "./content.js";
 
 /**
@@ -23,7 +23,11 @@ Promise.all([
 	include(self.Prism, "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/prism.min.js"),
 	include(self.tippy, "https://unpkg.com/tippy.js@1/dist/tippy.js"),
 ])
-	.then(() => include(Prism.plugins.NormalizeWhitespace, "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"))
+	.then(() =>
+		include(
+			Prism.plugins.NormalizeWhitespace,
+			"https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js",
+		))
 	.then(() => {
 		var t = tippy(cells, {
 			html: td => {
@@ -55,7 +59,6 @@ Promise.all([
 loadCSS("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/themes/prism.css");
 loadCSS("https://unpkg.com/tippy.js@1.3.0/dist/tippy.css");
 
-
 await ready();
 
 // Add ids to all tests
@@ -65,7 +68,6 @@ $$(`.reftest > tbody > tr, .reftest > tr`).forEach((test, i) => {
 		test.id = id + (id ? "-" : "") + "test-" + (i + 1);
 	}
 });
-
 
 let hashchanged = evt => {
 	if (location.hash) {
@@ -131,35 +133,41 @@ RefTest.nav = create({
 	tag: "nav",
 	inside: document.body,
 	contents: [
-		window === parent ? {
-			tag: "a",
-			className: "home",
-			title: "Home",
-			textContent: "🏠",
-			href: "index.html",
-			target: "_top",
-		} : undefined,
+		window === parent
+			? {
+					tag: "a",
+					className: "home",
+					title: "Home",
+					textContent: "🏠",
+					href: "index.html",
+					target: "_top",
+				}
+			: undefined,
 		...["fail", "pass", "skipped"].map(type => {
 			return {
 				className: "count-" + type,
 				contents: [
-					{className: "count"},
+					{ className: "count" },
 					{
 						className: "nav",
 						hidden: true,
 						contents: [
 							{
-								tag: "button", type: "button",
-								className: "previous", textContent: "◂",
+								tag: "button",
+								type: "button",
+								className: "previous",
+								textContent: "◂",
 								onclick: evt => {
 									RefTest.previous(type);
 									evt.stopPropagation();
 								},
 							},
-							{className: "current"},
+							{ className: "current" },
 							{
-								tag: "button", type: "button",
-								className: "next", textContent: "▸",
+								tag: "button",
+								type: "button",
+								className: "next",
+								textContent: "▸",
 								onclick: evt => {
 									RefTest.next(type);
 									evt.stopPropagation();
@@ -205,7 +213,6 @@ document.addEventListener("dblclick", evt => {
 		}
 	}
 });
-
 
 Object.assign(globalThis, {
 	Test,

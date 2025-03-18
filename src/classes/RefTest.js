@@ -1,19 +1,26 @@
-import { doClick, create, $$, bind, ready } from "./util.js";
-import { formatDuration } from "../util.js";
-import hooks from "../hooks.js";
-import * as compare from "./compare.js";
+import { doClick, create, $$, bind, ready } from "../util.js";
+import { formatDuration } from "https://htest.dev/src/util.js";
+import hooks from "https://htest.dev/src/hooks.js";
+import * as compare from "../compare.js";
 
 export default class RefTest {
 	constructor (table) {
 		this.table = table;
 		table.reftest = this;
-		this.columns = +this.table.getAttribute("data-columns") || Math.max.apply(Math, [...this.table.rows].map(row => row.cells.length));
+		this.columns =
+			+this.table.getAttribute("data-columns") ||
+			Math.max.apply(
+				Math,
+				[...this.table.rows].map(row => row.cells.length),
+			);
 		this.manual = this.table.matches(".manual");
 		this.init();
 	}
 
 	async init () {
-		this.compare = this.manual ? null : await RefTest.getTest(this.table.getAttribute("data-test"));
+		this.compare = this.manual
+			? null
+			: await RefTest.getTest(this.table.getAttribute("data-test"));
 		this.setup();
 
 		if (!this.manual) {
@@ -30,14 +37,18 @@ export default class RefTest {
 
 		// Add table header if not present
 		if (!this.table.querySelector("thead") && this.columns > 1) {
-			var header = [...Array(Math.max(0, this.columns - 2)).fill("Test"), "Actual", "Expected"].slice(-this.columns);
+			var header = [
+				...Array(Math.max(0, this.columns - 2)).fill("Test"),
+				"Actual",
+				"Expected",
+			].slice(-this.columns);
 
 			create("thead", {
 				contents: [
 					{
 						tag: "tr",
 						contents: header.map(text => {
-							return {tag: "th", textContent: text};
+							return { tag: "th", textContent: text };
 						}),
 					},
 				],
@@ -47,7 +58,7 @@ export default class RefTest {
 
 		// Observe class changes on <tr>s and update the results
 		this.resultObserver = new MutationObserver(mutation => {
-			for (let {target} of mutation) {
+			for (let { target } of mutation) {
 				if (target.matches("tr")) {
 					RefTest.updateResults();
 				}
@@ -68,14 +79,16 @@ export default class RefTest {
 			this.observer = new MutationObserver(test);
 			this.observe();
 
-			bind(this.table, "input change click mv-change", test);
-
-			this.table.closest("[mv-app]")?.addEventListener("mv-load", test);
+			bind(this.table, "input change click", test);
 
 			$$("[data-click]", this.table)
 				.concat(this.table.matches("[data-click]") ? [this.table] : [])
 				.forEach(target => {
-					target.getAttribute("data-click").trim().split(/\s*,\s*/).forEach(doClick);
+					target
+						.getAttribute("data-click")
+						.trim()
+						.split(/\s*,\s*/)
+						.forEach(doClick);
 				});
 		}
 
@@ -90,8 +103,6 @@ export default class RefTest {
 			childList: true,
 			attributes: true,
 			characterData: true,
-			// TODO move this somewhere else, it's Mavo specific
-			attributeFilter: ["mv-mode"],
 		});
 	}
 
@@ -119,7 +130,7 @@ export default class RefTest {
 	}
 
 	async testRow (tr) {
-		let env = {context: this, tr, cells: [...tr.cells]};
+		let env = { context: this, tr, cells: [...tr.cells] };
 		hooks.run("reftest-testrow", env);
 
 		if (!env.tr.compare) {
@@ -133,13 +144,13 @@ export default class RefTest {
 				// Test, actual, expected
 				if (env.cells.length == 1) {
 					// expected is the same as test
-					resultCell = create("td", {after: env.cells[0]});
+					resultCell = create("td", { after: env.cells[0] });
 					env.cells.push(resultCell);
 				}
 
 				if (env.cells.length == 2) {
 					// missing actual
-					resultCell = create("td", {after: env.cells[0]});
+					resultCell = create("td", { after: env.cells[0] });
 					env.cells.splice(1, 0, resultCell);
 				}
 
@@ -150,7 +161,7 @@ export default class RefTest {
 			else if (this.columns == 2 && !env.cells[0].innerHTML) {
 				// Empty cell, takes the test from above
 				let previous = env.tr;
-				while (previous = previous.previousElementSibling) {
+				while ((previous = previous.previousElementSibling)) {
 					if (previous.cells[0].innerHTML) {
 						env.cells[0] = previous.cells[0];
 						break;
@@ -181,7 +192,11 @@ export default class RefTest {
 			var className = pass ? "pass" : "fail";
 			tr.classList.add(className);
 
-			if (className == "pass" && className != previousClass && !tr.classList.contains("interactive")) {
+			if (
+				className == "pass" &&
+				className != previousClass &&
+				!tr.classList.contains("interactive")
+			) {
 				// Display how long it took
 				let time = performance.now() - this.startup;
 				tr.setAttribute("data-time", formatDuration(time));
@@ -204,7 +219,8 @@ export default class RefTest {
 				else {
 					// return new Function("td", "ref", test);
 					// Try again in a bit
-					await new Promise(resolve => window.addEventListener("load", resolve, {once: true}));
+					await new Promise(resolve =>
+						window.addEventListener("load", resolve, { once: true }));
 					return globalThis[test];
 				}
 			}
@@ -259,11 +275,11 @@ export default class RefTest {
 		document.body.classList.toggle("no-skipped", detail.skipped === 0);
 		// $(".count-interactive", RefTest.nav).textContent = RefTest.results.interactive.length;
 
-		document.dispatchEvent(new CustomEvent("testresultsupdate", {detail}));
+		document.dispatchEvent(new CustomEvent("testresultsupdate", { detail }));
 	}
 
 	// Navigate tests
-	static #navigateTests (type = "fail", offset) {
+	static #navigateTests(type = "fail", offset) {
 		let elements = this.results[type];
 		let i = this.results.current[type] + offset;
 
@@ -284,7 +300,7 @@ export default class RefTest {
 			countElement.querySelector(".current").textContent = i + 1;
 		}
 
-		elements[i].scrollIntoView({behavior: "smooth"});
+		elements[i].scrollIntoView({ behavior: "smooth" });
 
 		this.results.current[type] = i;
 	}
