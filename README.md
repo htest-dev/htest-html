@@ -1,13 +1,3 @@
-<header class="readme-only">
-
-# <img src="https://htest.dev/assets/images/logo.svg" class="logo" width="22"> **h**Test
-
-Declarative, boilerplate-free unit testing, for everyone.
-
-https://html.htest.dev
-<hr class="readme-only" />
-</header>
-
 <nav class="sidebar toc" id="main-contents">
 
 - [Installation](#installation)
@@ -100,7 +90,7 @@ Examples:
 
 - `data-click=""`: Clicks the element it's specified on immediately on `DOMContentLoaded`.
 - `data-click=".foo"`: Clicks `.foo` elements immediately on `DOMContentLoaded`.
-- `data-click=".foo .bar wait 5s after mv-load"`: Clicks `.foo .bar` elements 5 seconds after the `mv-load` event fires.
+- `data-click=".foo .bar wait 5s after load"`: Clicks `.foo .bar` elements 5 seconds after the `load` event fires.
 - `data-click=".foo 3 times after hashchange"`: Clicks `.foo` elements 3 times after the `hashchange` event.
 - `data-click="wait 1s after load"`: Clicks the element it's specified on 1 second after the `load` event fires.
 - `data-click="wait 1s after load 2 times"`: Same as above, but clicks twice.
