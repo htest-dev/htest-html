@@ -88,7 +88,7 @@ export default class RefTest {
 						.getAttribute("data-click")
 						.trim()
 						.split(/\s*,\s*/)
-						.forEach(doClick);
+						.forEach(click => doClick(click, target));
 				});
 		}
 
