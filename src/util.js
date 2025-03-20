@@ -35,7 +35,7 @@ export function parseClick (click) {
 	return ret;
 }
 
-export async function doClick (click) {
+export async function doClick (click, target) {
 	click = parseClick(click);
 
 	if (click.event) {

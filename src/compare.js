@@ -46,8 +46,8 @@ export function selector (td, ref) {
 		return $$("li", ref).every(li => selector(td, li));
 	}
 	else {
-		var negative = ref.classList.contains("not");
-		var has = !!$(ref.textContent, td);
+		let negative = ref.classList.contains("not");
+		let has = $$(ref.textContent, td).length;
 		return negative ? !has : has;
 	}
 }
@@ -63,9 +63,10 @@ export function dom (td, ref) {
 		let element = elements[i];
 
 		return (
-			element.nodeName == refElement.nodeName &&
-			$$(refElement.attributes).every(
-				attr => element.getAttribute(attr.name) === attr.value,
+			element &&
+			element.nodeName === refElement.nodeName &&
+			refElement.getAttributeNames().every(
+				attr => element.getAttribute(attr) === refElement.getAttribute(attr),
 			) &&
 			content(element).trim() == content(refElement).trim()
 		);
