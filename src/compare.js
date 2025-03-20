@@ -65,8 +65,8 @@ export function dom (td, ref) {
 		return (
 			element &&
 			element.nodeName === refElement.nodeName &&
-			[...refElement.attributes].every(
-				attr => element.getAttribute(attr.name) === attr.value,
+			refElement.getAttributeNames().every(
+				attr => element.getAttribute(attr) === refElement.getAttribute(attr),
 			) &&
 			content(element).trim() == content(refElement).trim()
 		);
