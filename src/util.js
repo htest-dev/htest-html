@@ -55,8 +55,6 @@ export async function doClick (click, target) {
 	}
 }
 
-// Don't allow Prettier to replace `$$` with `$` 🤷‍♂️
-// prettier-ignore
 export function $$ (selector, context = document) {
 	return [...context.querySelectorAll(selector)];
 }
