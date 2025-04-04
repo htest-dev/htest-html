@@ -1,7 +1,7 @@
 {
 	"out": "./api",
 	"json": "./api/docs.json",
-	"name": "hTest HTML API Docs",
+	"name": "hTest HTML API",
 	"entryPoints": ["src/index.js", "src/util.js"],
 	"entryPointStrategy": "expand",
 	"excludeExternals": true,
@@ -10,6 +10,10 @@
 		"html": true,
 		"linkify": true,
 		"typographer": true
+	},
+	"navigationLinks": {
+		"Home": "https://html.htest.dev",
+		"GitHub": "https://github.com/htest-dev/htest-html"
 	},
 	"favicon": "https://htest.dev/assets/images/logo.svg",
 	"hostedBaseUrl": "https://html.htest.dev/api",

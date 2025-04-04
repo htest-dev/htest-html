@@ -34,7 +34,7 @@
 		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
 		"build:apidocs": "npx typedoc",
 		"watch:apidocs": "npx typedoc --watch --preserveWatchOutput",
-		"build": "npm run build:html & npm run build:apidocs",
+		"build": "npm run build:html && npm run build:apidocs",
 		"watch": "npm run watch:html & npm run watch:apidocs",
 		"release": "release-it"
 	},
