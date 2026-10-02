@@ -114,9 +114,13 @@ export default class RefTest {
 	// Run code past observer
 	sneak (callback) {
 		this.unobserve();
-		var ret = callback.call(this);
-		this.observe();
-		return ret;
+
+		try {
+			return callback.call(this);
+		}
+		finally {
+			this.observe();
+		}
 	}
 
 	test () {
@@ -169,38 +173,41 @@ export default class RefTest {
 				}
 			}
 
-			try {
-				var ret = this.sneak(() => tr.compare(...env.cells));
-				resultCell.onclick = null;
-			}
-			catch (e) {
-				ret = e;
-				var error = true;
-				resultCell.textContent = e + "";
-				resultCell.onclick = evt => console.error(e);
-			}
+			// Write results past the observer, or the writes would re-run the test
+			this.sneak(() => {
+				try {
+					var ret = tr.compare(...env.cells);
+					resultCell.onclick = null;
+				}
+				catch (e) {
+					ret = e;
+					var error = true;
+					resultCell.textContent = String(e);
+					resultCell.onclick = evt => console.error(e);
+				}
 
-			var error = ret instanceof Error;
+				error ||= ret instanceof Error;
 
-			var previousClass = tr.classList.contains("pass") ? "pass" : "fail";
-			tr.classList.remove("pass", "fail");
-			let pass = ret;
-			if (error) {
-				pass = tr.hasAttribute("data-error");
-			}
+				var previousClass = tr.classList.contains("pass") ? "pass" : "fail";
+				tr.classList.remove("pass", "fail");
+				let pass = ret;
+				if (error) {
+					pass = tr.hasAttribute("data-error");
+				}
 
-			var className = pass ? "pass" : "fail";
-			tr.classList.add(className);
+				var className = pass ? "pass" : "fail";
+				tr.classList.add(className);
 
-			if (
-				className == "pass" &&
-				className != previousClass &&
-				!tr.classList.contains("interactive")
-			) {
-				// Display how long it took
-				let time = performance.now() - this.startup;
-				tr.setAttribute("data-time", formatDuration(time));
-			}
+				if (
+					className == "pass" &&
+					className != previousClass &&
+					!tr.classList.contains("interactive")
+				) {
+					// Display how long it took
+					let time = performance.now() - this.startup;
+					tr.setAttribute("data-time", formatDuration(time));
+				}
+			});
 		}
 	}
 
