@@ -114,9 +114,13 @@ export default class RefTest {
 	// Run code past observer
 	sneak (callback) {
 		this.unobserve();
-		var ret = callback.call(this);
-		this.observe();
-		return ret;
+
+		try {
+			return callback.call(this);
+		}
+		finally {
+			this.observe();
+		}
 	}
 
 	test () {
