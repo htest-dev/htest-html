@@ -176,11 +176,11 @@ export default class RefTest {
 			catch (e) {
 				ret = e;
 				var error = true;
-				resultCell.textContent = e + "";
+				resultCell.textContent = String(e);
 				resultCell.onclick = evt => console.error(e);
 			}
 
-			var error = ret instanceof Error;
+			error ||= ret instanceof Error;
 
 			var previousClass = tr.classList.contains("pass") ? "pass" : "fail";
 			tr.classList.remove("pass", "fail");
