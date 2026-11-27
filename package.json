@@ -30,12 +30,14 @@
 	"author": "Lea Verou",
 	"license": "MIT",
 	"scripts": {
-		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js",
-		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
+		"prepare": "rm -rf .htest && git clone --depth 1 https://github.com/htest-dev/htest.git .htest",
+		"build:html": "docspire",
+		"watch:html": "docspire --watch",
 		"build:apidocs": "npx typedoc",
 		"watch:apidocs": "npx typedoc --watch --preserveWatchOutput",
-		"build": "npm run build:html && npm run build:apidocs",
+		"build": "npm run build:apidocs && npm run build:html",
 		"watch": "npm run watch:html & npm run watch:apidocs",
+		"serve": "docspire --serve",
 		"release": "release-it"
 	},
 	"devDependencies": {

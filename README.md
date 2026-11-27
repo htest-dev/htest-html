@@ -1,4 +1,4 @@
-<nav class="sidebar toc" id="main-contents">
+<nav class="readme-only" id="main-contents">
 
 - [Installation](#installation)
 - [Defining tests](#defining-tests)
@@ -11,8 +11,6 @@
 - [Isolating tests](#isolating-tests)
 
 </nav>
-
-<main>
 
 # HTML-first tests
 
@@ -104,7 +102,7 @@ Put the expected error type in the "expected" table cell.
 ### `$out()` and `$outln()` functions { #out-and-outln-functions }
 
 Sometimes what is tested is pure JS output with no UI.
-While the [JS-first mode](https://htest.dev/docs/define/) is typically better for those use cases, it is possible to use HTML-first mode as well.
+While the [JS-first mode](https://htest.dev/define/) is typically better for those use cases, it is possible to use HTML-first mode as well.
 In that case, use `<script>` tags and the `$out()` or `$outln()` functions.
 Their only difference is that `$outln()` also prints a line break.
 
@@ -119,5 +117,3 @@ It is often useful to isolate a single group of tests, or even a single test so 
 To isolate a group of tests (`<section>`), simply click the link of the section heading.
 
 To isolate a specific test (`<tr>`), hold down the <kbd>Alt</kbd>/<kbd>Option</kbd> key and double click on the table row.
-
-</main>

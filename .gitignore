@@ -5,3 +5,8 @@ Thumbs.db
 # Generated files
 *.html
 api
+_site/
+.htest
+
+# Local Netlify folder
+.netlify
